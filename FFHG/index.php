@@ -10,24 +10,13 @@
 
 <?php
 include('init.php');
+
 ?>
-
- <script>
-	// function actualiserafficher(div_a_actualiser)
-// {
-// $("#afficher").load("index.php #afficher");
-// }
-
-
-
-
-     </script> 
-
 
   <div class="row">
     <div class="col s12">
       <ul class="tabs">
-	    <li class="tab col s3"><a href="#afficher" onclick="actualiserafficher();" class="active">Afficher les arbitres</a></li>
+	    <li class="tab col s3"><a href="#afficher" class="active">Afficher les arbitres</a></li>
         <li class="tab col s3"><a href="#ajouter">Ajouter un arbitre</a></li>
         <li class="tab col s3"><a href="#chercher">Chercher un arbitre</a></li>
         <li class="tab col s3"><a href="#modifier">Modifier un arbitre</a></li> 		
@@ -85,6 +74,9 @@ $requeteaff = $bdd->query('SELECT ARBI_PRENOM,ARBI_NOM,ARBI_ADRESSE,ARBI_VILLE,A
 
 
 <div id="ajouter">
+
+	<script> validate() </script>
+
 	<div class="row">
 		<form class="col s6" method="POST" action="ajouter.php">
 			<div class="row">
@@ -143,20 +135,7 @@ $requeteaff = $bdd->query('SELECT ARBI_PRENOM,ARBI_NOM,ARBI_ADRESSE,ARBI_VILLE,A
 				</div>
 			</div>
 			
-			Actif?	
-			<div class="row">
-				<div class="switch">
-					<label>
-						Non
-							<input type="checkbox" name="actifarb">
-								<span class="lever"></span>
-						Oui
-					</label>
-				</div>
-			</div>
-			
-			
-			<button class="btn waves-effect waves-yellow red darken-3" type="submit" name="action" href="index.php" onClick="toast()">Ajouter
+			<button class="btn waves-effect waves-yellow red darken-3" type="submit" name="action" href="index.php">Ajouter
 				<i class="material-icons large right">send</i>
 			</button>
 			
@@ -166,18 +145,13 @@ $requeteaff = $bdd->query('SELECT ARBI_PRENOM,ARBI_NOM,ARBI_ADRESSE,ARBI_VILLE,A
 	
 </div>
 
-<script>
-		function toast(){
-		Materialize.toast("L'arbitre à bien été ajouté!", 10000);	
-}		
-	</script>
-
 <br />
+
 <div id="chercher">
 	<?php
 		$chercher ='SELECT ARBI_NOLICENCE, ARBI_NOM, ARBI_PRENOM FROM ARBITRE ORDER BY ARBI_NOLICENCE';
 	?>
-<form method="GET" action="">
+<form method="POST" action="index.php#chercher">
 	 <div class='input-field col s2'>
 		<div class="row">
 			<select id ="changement" class="browser-default" name="arbitrechoisi">
@@ -189,14 +163,82 @@ $requeteaff = $bdd->query('SELECT ARBI_PRENOM,ARBI_NOM,ARBI_ADRESSE,ARBI_VILLE,A
 						?>
 			</select>	
 		</div>
-	</div>
+	 </div>
+		
+	<br />
+	<br />
+	<br />
+	<br />
+		<div class="left col">
+		<button class="btn waves-effect waves-yellow red darken-3" type="submit" name="action">Chercher
+				<i class="material-icons large right">send</i>
+		</button>
+		</div>
+	<?php
+	
+		if (empty($_POST['arbitrechoisi']))
+		{
+		
+		
+		
+		}
+		
+		else
+		{
+	
+		$infoarb =  $bdd -> query('SELECT * FROM arbitre WHERE ARBI_NOLICENCE = '.$_POST["arbitrechoisi"].'');
+	?>
 </form>
 	
 	<br />
 	<br />
-	<br />
-	<br />
+	
+	<table class="bordered centered">
+					<thead>
+						<tr>
+							<th>Numéro de licence</th>
+							<th>Nom</th>
+							<th>Prénom</th>							
+							<th>Adresse</th>
+							<th>Ville</th>
+							<th>Pays</th>
+							<th>Téléphone</th>
+							<th>Courriel</th>
+							<th>Date de naissance</th>
+							<th>Actif?</th>
+						</tr>
+					</thead>
+	<tbody>
+			
+<?php
 
+
+				$infos = $infoarb -> fetch();
+				if ($infos['ARBI_ACTIF'] == 1)
+				{
+						$arbitreactif = "Oui";
+				
+				}
+				else
+				{
+				
+						$arbitreactif = "Non";
+				}
+				echo '<tr>';
+				echo '<td>' . $infos['ARBI_NOLICENCE'] . '</td>';
+				echo '<td>' . $infos['ARBI_NOM'] . '</td>';
+				echo '<td>' . $infos['ARBI_PRENOM'] . '</td>';				
+				echo '<td>' . $infos['ARBI_ADRESSE'] . '</td>';
+				echo '<td>' . $infos['ARBI_VILLE'] . '</td>';
+				echo '<td>' . $infos['ARBI_PAYS'] . '</td>';
+				echo '<td>' . $infos['ARBI_TELEPHONE'] . '</td>';
+				echo '<td>' . $infos['ARBI_COURRIEL'] . '</td>';
+				echo '<td>' . $infos['ARBI_DATENAISSANCE'] . '</td>';
+				echo '<td>' . $arbitreactif . '</td>';
+				echo '</tr>';
+			
+		}
+			?>
 
 </div>
 </div>

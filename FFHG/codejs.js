@@ -1,9 +1,7 @@
-
-
-
-				// function popup(){
-					// Materialize.toast("L'arbitre à bien été ajouté!", 4000);
-					// alert('L"arbitre à bien été ajouté!');
-					// document.location = 'index.php/#afficher';
-					// return;
-			// }
+﻿function toast()
+	{						
+		 Materialize.toast("L'arbitre à bien été ajouté!", 4000) // 4000 c'est la durée
+	}
+						 
+											
+				

@@ -20,7 +20,7 @@
 <?php
 
 
-
+	/*Connexion à la BDD et renvoie un message d'erreur si la connexion a échoué*/ 
 	try
 	{
 		$bdd= new PDO("mysql:host=localhost;dbname=contextesms", "root", "");
